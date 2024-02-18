@@ -24,6 +24,8 @@ class Piece {
     public:
         Piece(int x, int y, int z, Colour xc, Colour yc, Colour zc, PieceType type):
             pos{x, y, z}, colour{xc, yc, zc}, type{type} {}
+
+        Piece() = default;
         
         vector<int>getPos() const {
             
