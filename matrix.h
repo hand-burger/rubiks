@@ -1,3 +1,6 @@
+#ifndef MATRIX_H
+#define MATRIX_H
+
 #include <iostream>
 #include <initializer_list>
 #include <vector>
@@ -84,3 +87,5 @@ const Matrix<3, 3> Umove {0, -1, 0, 1, 0, 0, 0, 0, 1};
 const Matrix<3, 3> Rmove {0, 0, -1, 0, 1, 0, 1, 0, 0};
 
 const Matrix<3, 3> Fmove {1, 0, 0, 0, 0, 1, 0, -1, 0};
+
+#endif
