@@ -41,38 +41,46 @@ template <size_t N, size_t M> class Matrix {
             }
         }
 
-    ostream& print(ostream &out) {
+        ostream& print(ostream &out) const {
 
-        for (size_t i = 0; i < m; ++i) {
+            for (size_t i = 0; i < m; ++i) {
 
-            for (size_t j = 0; j < n; ++j) {
+                for (size_t j = 0; j < n; ++j) {
 
-                out << rows[i][j] << ' ';
-            }
-            out << endl;
-        }
-
-        return out;
-    }
-
-    vector<int> operator*(vector<int> &vec) {
-
-        if (vec.size() != n) throw incorrect_size{};
-
-        vector<int> retval;
-
-        for (size_t i = 0; i < m; ++i) {
-
-            int val = 0;
-
-            for (size_t j = 0; j < n; ++j) {
-
-                val += vec[j] * rows[i][j];
+                    out << rows[i][j] << ' ';
+                }
+                out << endl;
             }
 
-            retval.push_back(val);
+            return out;
         }
 
-        return retval;
-    }
+        vector<int> operator*(vector<int> &vec) const {
+
+            if (vec.size() != n) throw incorrect_size{};
+
+            vector<int> retval;
+
+            for (size_t i = 0; i < m; ++i) {
+
+                int val = 0;
+
+                for (size_t j = 0; j < n; ++j) {
+
+                    val += vec[j] * rows[i][j];
+                }
+
+                retval.push_back(val);
+            }
+
+            return retval;
+        }
 };
+
+// Rotation matrices
+
+const Matrix<3, 3> Umove {0, -1, 0, 1, 0, 0, 0, 0, 1};
+
+const Matrix<3, 3> Rmove {0, 0, -1, 0, 1, 0, 1, 0, 0};
+
+const Matrix<3, 3> Fmove {1, 0, 0, 0, 0, 1, 0, -1, 0};
