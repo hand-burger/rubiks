@@ -22,10 +22,8 @@ class Piece {
     PieceType type;
 
     public:
-        Piece(int x, int y, int z, Colour xc, Colour yc, Colour zc, PieceType type):
+        Piece(int x = 0, int y = 0, int z = 0, Colour xc = Colour::N, Colour yc = Colour::N, Colour zc = Colour::N, PieceType type = PieceType::Middle):
             pos{x, y, z}, colour{xc, yc, zc}, type{type} {}
-
-        Piece() = default;
         
         vector<int>getPos() const {
             
