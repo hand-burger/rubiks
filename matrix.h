@@ -83,13 +83,13 @@ template <size_t N, size_t M> class Matrix {
 // Rotation matrices
 
 // Rotate 90 degrees in the respective plane
-const Matrix<3, 3> ROT_CCW_XY = {0, -1, 0, 1, 0, 0, 0, 0, 1};
-const Matrix<3, 3> ROT_CW_XY = {0, 1, 0, -1, 0, 0, 0, 0, 1};
+const Matrix<3, 3> ROT_CCW_XY {0, -1, 0, 1, 0, 0, 0, 0, 1};
+const Matrix<3, 3> ROT_CW_XY {0, 1, 0, -1, 0, 0, 0, 0, 1};
 
-const Matrix<3, 3> ROT_CCW_XZ = {0, 0, 1, 0, 1, 0, -1, 0, 0};
-const Matrix<3, 3> ROT_CW_XZ = {0, 0, -1, 0, 1, 0, 1, 0, 0};
+const Matrix<3, 3> ROT_CCW_XZ {0, 0, 1, 0, 1, 0, -1, 0, 0};
+const Matrix<3, 3> ROT_CW_XZ {0, 0, -1, 0, 1, 0, 1, 0, 0};
 
-const Matrix<3, 3> ROT_CCW_YZ = {1, 0, 0, 0, 0, -1, 0, 1, 0};
-const Matrix<3, 3> ROT_CW_YZ = {1, 0, 0, 0, 0, 1, 0, -1, 0};
+const Matrix<3, 3> ROT_CCW_YZ {1, 0, 0, 0, 0, -1, 0, 1, 0};
+const Matrix<3, 3> ROT_CW_YZ {1, 0, 0, 0, 0, 1, 0, -1, 0};
 
 #endif

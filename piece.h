@@ -29,6 +29,11 @@ class Piece {
             
             return pos;
         }
+
+        vector<Colour> getColour() const {
+            
+            return colour;
+        }
         void rotate(const Matrix<3, 3> &rotation) {
 
             vector<int> newPos = rotation * pos; // rotate using matrix multiplication
