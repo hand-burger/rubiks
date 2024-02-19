@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include <string>
+#include <format>
+#include <stdexcept>
+#include <map>
 #include "piece.h"
 #include "matrix.h"
 
@@ -135,6 +138,46 @@ class Cube {
         void Fi() {rotateFace(new int[3]{1, 0, 0}, ROT_CCW_YZ);}
         void B() {rotateFace(new int[3]{-1, 0, 0}, ROT_CCW_YZ);}
         void Bi() {rotateFace(new int[3]{-1, 0, 0}, ROT_CW_YZ);}
+
+        void print() {
+            map<Colour, std::string> colorMap = {
+                {Colour::Y, "Y "},
+                {Colour::W, "W "},
+                {Colour::R, "R "},
+                {Colour::O, "O "},
+                {Colour::B, "B "},
+                {Colour::G, "G "},
+                {Colour::N, "N "}
+            };
+            int facePositions[6][3] = {
+                {0, 0, 1}, // Up
+                {0, -1, 0}, // Left
+                {1, 0, 0}, // Front
+                {0, 1, 0}, // Right
+                {-1, 0, 0}, // Back
+                {0, 0, -1} // Down
+            };
+
+            int coordinates[6] = {2, 1, 0, 1, 0, 2};
+
+            for (int i = 0; i < 6; i++) {
+                Colour *faceColours = new Colour[9];
+                Piece *face = getFace(facePositions[i]);
+                for (int j = 0; j < 9; j++) {
+                    faceColours[j] = face[j].getColour()[coordinates[i]];
+                }
+                for (int j = 0; j < 9; j++) {
+                    cout << colorMap[faceColours[j]];
+                    if (j % 3 == 2) {
+                        cout << endl;
+                    }
+                }
+                if (i == 0 || i == 4) {
+                    cout << endl;
+                }
+            }
+            cout << endl;
+        }
 
     private:
         Colour charToColour(char c) {
