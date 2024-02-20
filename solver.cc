@@ -1,16 +1,15 @@
 #include <iostream>
-#include "cube.h"
+#include "solver.h"
 
 using namespace std;
 
 int main() {
     Cube c;
     c.print();
-    c.R();
-    cout << endl << endl;
-    c.print();
     c.scramble();
     cout << endl << endl;
     c.print();
+    Solver s{c};
+    s.solve();
     return 0;
 }

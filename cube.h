@@ -261,43 +261,56 @@ class Cube {
             random_device rd;
             mt19937 mt(rd());
             uniform_int_distribution<int> d(0, 11);
+            cout << endl << "Scramble: ";
             for (int i = 0; i < 20; i++) {
                 switch (d(mt)) {
                     case 0:
                         R();
+                        cout << "R ";
                         break;
                     case 1:
                         Ri();
+                        cout << "Ri ";
                         break;
                     case 2:
                         L();
+                        cout << "L ";
                         break;
                     case 3:
                         Li();
+                        cout << "Li ";
                         break;
                     case 4:
                         U();
+                        cout << "U ";
                         break;
                     case 5:
                         Ui();
+                        cout << "Ui ";
                         break;
                     case 6:
                         D();
+                        cout << "D ";
                         break;
                     case 7:
                         Di();
+                        cout << "Di ";
                         break;
                     case 8:
                         F();
+                        cout << "F ";
                         break;
                     case 9:
                         Fi();
+                        cout << "Fi ";
                         break;
                     case 10:
                         B();
+                        cout << "B ";
                         break;
                     case 11:
                         Bi();
+                        cout << "Bi ";
                         break;
                 }
             }
