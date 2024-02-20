@@ -34,41 +34,48 @@ class Piece {
             
             return colour;
         }
-        void rotate(const Matrix<3, 3> &rotation) {
+        void rotate(const Matrix<3, 3> *rotation) {
 
-            vector<int> newPos = rotation * pos; // rotate using matrix multiplication
+            vector<int> newPos = *rotation * pos; // rotate using matrix multiplication
 
-            // bad way of determining turn type
-            if (newPos[0] == pos[0]) {
-                
-                // x matches so F turn
-                
-                // Colour temp {colour[1]};
-                // colour[1] = colour[2];
-                // colour[2] = temp;
-                swap(colour[1], colour[2]);
-            } else if (newPos[1] == pos[1]) {
-
-                // y matches so R turn
-
-                // Colour temp {colour[0]};
-                // colour[0] = colour[2];
-                // colour[2] = temp;
-                swap(colour[0], colour[2]);
-            } else if (newPos[2] == pos[2]) {
-
-                // z matches so U turn
-
-                // Colour temp {colour[0]};
-                // colour[0] = colour[1];
-                // colour[1] = temp;
-                swap(colour[0], colour[1]);
-            } else {
-
-                // not a valid turn
-                throw Improper_Turn{};
+            // Determine which plane the rotation was on to swap the colours accordingly
+            vector<int> diff;
+            for (int i = 0; i < 3; i++) {
+                diff.push_back(newPos[i] - pos[i]);
             }
             pos = newPos;
+            int zeroCount = 0;
+            for (int i = 0; i < 3; i++) {
+                if (diff[i] == 0) {
+                    zeroCount++;
+                }
+            }
+            if (zeroCount == 3) {
+                return;
+            }
+            else if (zeroCount == 2) {
+                vector<int> temp = *rotation * diff;
+                for (int i = 0; i < 3; i++) {
+                    diff[i] += temp[i];
+                }
+            }
+
+            // Get the positions of the two non-zero elements
+            int first = -1;
+            int second = -1;
+            for (int i = 0; i < 3; i++) {
+                if (diff[i] != 0) {
+                    if (first == -1) {
+                        first = i;
+                    }
+                    else {
+                        second = i;
+                    }
+                }
+            }
+
+            // Swap the colours
+            swap(colour[first], colour[second]);
         }
 };
 #endif

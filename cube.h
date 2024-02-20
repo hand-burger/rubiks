@@ -15,7 +15,7 @@ class Cube {
     Piece faces[6];
     Piece edges[12];
     Piece corners[8];
-    Piece pieces[26];
+    Piece **pieces = new Piece*[26];
 
     public:
         Cube(string s = "OOOOOOOOOGGGWWWBBBYYYGGGWWWBBBYYYGGGWWWBBBYYYRRRRRRRRR") {
@@ -90,23 +90,23 @@ class Cube {
 
             // Initialize the pieces
             for (int i = 0; i < 8; i++) {
-                pieces[i] = corners[i];
+                pieces[i] = &corners[i];
             }
             for (int i = 0; i < 12; i++) {
-                pieces[i + 8] = edges[i];
+                pieces[i + 8] = &edges[i];
             }
             for (int i = 0; i < 6; i++) {
-                pieces[i + 20] = faces[i];
+                pieces[i + 20] = &faces[i];
             }
         }
 
-        Piece* getFace(int *facePos) {
-            Piece* facePieces = new Piece[9];
+        Piece** getFace(int *facePos) {
+            Piece **facePieces = new Piece*[9];
             int faceIndex = 0;
 
             // Loop over the pieces and check if their dot product with the face position is > 0
             for (int i = 0; i < 26; i++) {
-                int dp = pieces[i].getPos()[0] * facePos[0] + pieces[i].getPos()[1] * facePos[1] + pieces[i].getPos()[2] * facePos[2];
+                int dp = pieces[i]->getPos()[0] * facePos[0] + pieces[i]->getPos()[1] * facePos[1] + pieces[i]->getPos()[2] * facePos[2];
                 if (dp > 0) {
                     facePieces[faceIndex] = pieces[i];
                     faceIndex++;
@@ -116,28 +116,28 @@ class Cube {
             return facePieces;
         }
 
-        void rotateFace(int *facePos, Matrix<3, 3> rotation) {
+        void rotateFace(int *facePos, const Matrix<3, 3> *rotation) {
             rotatePieces(getFace(facePos), rotation);
         }
 
-        void rotatePieces(Piece* facePieces, Matrix<3, 3> rotation) {
+        void rotatePieces(Piece** facePieces, const Matrix<3, 3> *rotation) {
             for (int i = 0; i < 9; i++) {
-                facePieces[i].rotate(rotation);
+                facePieces[i]->rotate(rotation);
             }
         }
 
-        void R() {rotateFace(new int[3]{0, 1, 0}, ROT_CW_XZ);}
-        void Ri() {rotateFace(new int[3]{0, 1, 0}, ROT_CCW_XZ);}
-        void L() {rotateFace(new int[3]{0, -1, 0}, ROT_CCW_XZ);}
-        void Li() {rotateFace(new int[3]{0, -1, 0}, ROT_CW_XZ);}
-        void U() {rotateFace(new int[3]{0, 0, 1}, ROT_CW_XY);}
-        void Ui() {rotateFace(new int[3]{0, 0, 1}, ROT_CCW_XY);}
-        void D() {rotateFace(new int[3]{0, 0, -1}, ROT_CCW_XY);}
-        void Di() {rotateFace(new int[3]{0, 0, -1}, ROT_CW_XY);}
-        void F() {rotateFace(new int[3]{1, 0, 0}, ROT_CW_YZ);}
-        void Fi() {rotateFace(new int[3]{1, 0, 0}, ROT_CCW_YZ);}
-        void B() {rotateFace(new int[3]{-1, 0, 0}, ROT_CCW_YZ);}
-        void Bi() {rotateFace(new int[3]{-1, 0, 0}, ROT_CW_YZ);}
+        void R() {rotateFace(new int[3]{0, 1, 0}, &ROT_CW_XZ);}
+        void Ri() {rotateFace(new int[3]{0, 1, 0}, &ROT_CCW_XZ);}
+        void L() {rotateFace(new int[3]{0, -1, 0}, &ROT_CCW_XZ);}
+        void Li() {rotateFace(new int[3]{0, -1, 0}, &ROT_CW_XZ);}
+        void U() {rotateFace(new int[3]{0, 0, 1}, &ROT_CW_XY);}
+        void Ui() {rotateFace(new int[3]{0, 0, 1}, &ROT_CCW_XY);}
+        void D() {rotateFace(new int[3]{0, 0, -1}, &ROT_CCW_XY);}
+        void Di() {rotateFace(new int[3]{0, 0, -1}, &ROT_CW_XY);}
+        void F() {rotateFace(new int[3]{1, 0, 0}, &ROT_CW_YZ);}
+        void Fi() {rotateFace(new int[3]{1, 0, 0}, &ROT_CCW_YZ);}
+        void B() {rotateFace(new int[3]{-1, 0, 0}, &ROT_CCW_YZ);}
+        void Bi() {rotateFace(new int[3]{-1, 0, 0}, &ROT_CW_YZ);}
 
         void print() {
             map<Colour, std::string> colorMap = {
@@ -162,9 +162,10 @@ class Cube {
 
             for (int i = 0; i < 6; i++) {
                 Colour *faceColours = new Colour[9];
-                Piece *face = getFace(facePositions[i]);
+                // Array of pointers to the pieces on the face
+                Piece **face = getFace(facePositions[i]);
                 for (int j = 0; j < 9; j++) {
-                    faceColours[j] = face[j].getColour()[coordinates[i]];
+                    faceColours[j] = face[j]->getColour()[coordinates[i]];
                 }
                 for (int j = 0; j < 9; j++) {
                     cout << colorMap[faceColours[j]];
