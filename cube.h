@@ -160,12 +160,66 @@ class Cube {
         void B() {rotateFace({-1, 0, 0}, &ROT_CCW_YZ);}
         void Bi() {rotateFace({-1, 0, 0}, &ROT_CW_YZ);}
 
+        vector<Piece*> sortFace(vector<Piece*> face, vector<int> facePos) {
+            vector<vector<int>> order;
+
+            if (facePos == vector<int>{0, 0, 1}) {  // Up
+                order = {
+                    {-1, -1, 1}, {-1, 0, 1}, {-1, 1, 1},
+                    {0, -1, 1}, {0, 0, 1}, {0, 1, 1},
+                    {1, -1, 1}, {1, 0, 1}, {1, 1, 1}
+                };
+            } else if (facePos == vector<int>{0, 0, -1}) {  // Down
+                order = {
+                    {1, -1, -1}, {1, 0, -1}, {1, 1, -1},
+                    {0, -1, -1}, {0, 0, -1}, {0, 1, -1},
+                    {-1, -1, -1}, {-1, 0, -1}, {-1, 1, -1}
+                };
+            } else if (facePos == vector<int>{0, -1, 0}) {  // Left
+                order = {
+                    {-1, -1, 1}, {0, -1, 1}, {1, -1, 1},
+                    {-1, -1, 0}, {0, -1, 0}, {1, -1, 0},
+                    {-1, -1, -1}, {0, -1, -1}, {1, -1, -1}
+                };
+            } else if (facePos == vector<int>{0, 1, 0}) {  // Right
+                order = {
+                    {1, 1, 1}, {0, 1, 1}, {-1, 1, 1},
+                    {1, 1, 0}, {0, 1, 0}, {-1, 1, 0},
+                    {1, 1, -1}, {0, 1, -1}, {-1, 1, -1}
+                };
+            } else if (facePos == vector<int>{1, 0, 0}) {  // Front
+                order = {
+                    {1, -1, 1}, {1, 0, 1}, {1, 1, 1},
+                    {1, -1, 0}, {1, 0, 0}, {1, 1, 0},
+                    {1, -1, -1}, {1, 0, -1}, {1, 1, -1}
+                };
+            } else if (facePos == vector<int>{-1, 0, 0}) {  // Back
+                order = {
+                    {-1, 1, 1}, {-1, 0, 1}, {-1, -1, 1},
+                    {-1, 1, 0}, {-1, 0, 0}, {-1, -1, 0},
+                    {-1, 1, -1}, {-1, 0, -1}, {-1, -1, -1}
+                };
+            }
+
+            vector<Piece*> sortedFace;
+            for (const auto& ord : order) {
+                auto it = find_if(face.begin(), face.end(), [&](Piece* p) {
+                    return p->getPos() == ord;
+                });
+                if (it != face.end()) {
+                    sortedFace.push_back(*it);
+                }
+            }
+
+            return sortedFace;
+        }
+
         void print() {
             int coordinates[6] {2, 1, 0, 1, 0, 2};
 
             for (int i = 0; i < 6; i++) {
                 vector <Colour> faceColours;
-                vector<Piece*> face = getFace(facePositions[i]);
+                vector<Piece*> face = sortFace(getFace(facePositions[i]), facePositions[i]);
 
                 for (int j = 0; j < 9; j++) {
 
