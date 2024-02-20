@@ -148,21 +148,12 @@ class Cube {
             return facePieces;
         }
 
-        // void rotateFace(int *facePos, Matrix<3, 3> rotation) {
-        //     rotatePieces(getFace(facePos), rotation);
-        // }
-
         // done with unique pointers
         void rotateFace(vector<int> facePos, Matrix<3, 3> rotation) {
 
             rotatePieces(getFace(facePos), rotation);
         }
 
-        // void rotatePieces(Piece* facePieces, Matrix<3, 3> rotation) {
-        //     for (int i = 0; i < 9; i++) {
-        //         facePieces[i].rotate(rotation);
-        //     }
-        // }
 
         // done with unique pointers
         void rotatePieces(vector<Piece> facePieces, Matrix<3, 3> rotation) {
