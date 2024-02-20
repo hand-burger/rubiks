@@ -9,5 +9,8 @@ int main() {
     c.R();
     cout << endl << endl;
     c.print();
+    c.scramble();
+    cout << endl << endl;
+    c.print();
     return 0;
 }

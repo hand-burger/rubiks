@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <map>
 #include <memory>
+#include <random>
 #include "piece.h"
 #include "matrix.h"
 
@@ -215,30 +216,91 @@ class Cube {
         }
 
         void print() {
-            int coordinates[6] {2, 1, 0, 1, 0, 2};
+            vector<vector<Piece*>> faces;
 
             for (int i = 0; i < 6; i++) {
                 vector <Colour> faceColours;
-                vector<Piece*> face = sortFace(getFace(facePositions[i]), facePositions[i]);
-
-                for (int j = 0; j < 9; j++) {
-
-                    faceColours.push_back(face[j]->getColour()[coordinates[i]]);
+                faces.push_back(sortFace(getFace(facePositions[i]), facePositions[i]));
+            }
+            for (int i = 0; i < 9; i++){
+                if (i % 3 == 0) {
+                    cout << "      ";
                 }
-
-                for (int j = 0; j < 9; j++) {
-                    cout << colorMap[faceColours[j]];
-                    if (j % 3 == 2) {
-                        cout << endl;
-                    }
-                }
-
-                if (i == 0 || i == 4) {
+                cout << colorMap[faces[0][i]->getColour()[2]];
+                if (i % 3 == 2) {
                     cout << endl;
                 }
-
             }
-            cout << endl;
+            for (int i = 0; i < 3; i++) {
+                for (int j = 3 * i; j < 3 * i + 3; j++) {
+                    cout << colorMap[faces[1][j]->getColour()[1]];
+                }
+                for (int j = 3 * i; j < 3 * i + 3; j++) {
+                    cout << colorMap[faces[2][j]->getColour()[0]];
+                }
+                for (int j = 3 * i; j < 3 * i + 3; j++) {
+                    cout << colorMap[faces[3][j]->getColour()[1]];
+                }
+                for (int j = 3 * i; j < 3 * i + 3; j++) {
+                    cout << colorMap[faces[4][j]->getColour()[0]];
+                }
+                cout << endl;
+            }
+            for (int i = 0; i < 9; i++){
+                if (i % 3 == 0) {
+                    cout << "      ";
+                }
+                cout << colorMap[faces[5][i]->getColour()[2]];
+                if (i % 3 == 2) {
+                    cout << endl;
+                }
+            }
+        }
+
+        void scramble() {
+            random_device rd;
+            mt19937 mt(rd());
+            uniform_int_distribution<int> d(0, 11);
+            for (int i = 0; i < 20; i++) {
+                switch (d(mt)) {
+                    case 0:
+                        R();
+                        break;
+                    case 1:
+                        Ri();
+                        break;
+                    case 2:
+                        L();
+                        break;
+                    case 3:
+                        Li();
+                        break;
+                    case 4:
+                        U();
+                        break;
+                    case 5:
+                        Ui();
+                        break;
+                    case 6:
+                        D();
+                        break;
+                    case 7:
+                        Di();
+                        break;
+                    case 8:
+                        F();
+                        break;
+                    case 9:
+                        Fi();
+                        break;
+                    case 10:
+                        B();
+                        break;
+                    case 11:
+                        Bi();
+                        break;
+                }
+            }
         }
 
     private:
