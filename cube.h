@@ -16,7 +16,7 @@ class Cube {
     Piece faces[6];
     Piece edges[12];
     Piece corners[8];
-    Piece pieces[26];
+    vector<Piece*> pieces;
 
     map<Colour, std::string> colorMap {
         {Colour::Y, "Y "},
@@ -108,38 +108,22 @@ class Cube {
 
             // Initialize the pieces
             for (int i = 0; i < 8; i++) {
-                pieces[i] = corners[i];
+                pieces.push_back(&corners[i]);
             }
             for (int i = 0; i < 12; i++) {
-                pieces[i + 8] = edges[i];
+                pieces.push_back(&edges[i]);
             }
             for (int i = 0; i < 6; i++) {
-                pieces[i + 20] = faces[i];
+                pieces.push_back(&faces[i]);
             }
         }
 
-        // Piece* getFace(int *facePos) {
-        //     Piece* facePieces = new Piece[9];
-        //     int faceIndex = 0;
-
-        //     // Loop over the pieces and check if their dot product with the face position is > 0
-        //     for (int i = 0; i < 26; i++) {
-        //         int dp = pieces[i].getPos()[0] * facePos[0] + pieces[i].getPos()[1] * facePos[1] + pieces[i].getPos()[2] * facePos[2];
-        //         if (dp > 0) {
-        //             facePieces[faceIndex] = pieces[i];
-        //             faceIndex++;
-        //         }
-        //     }
-            
-        //     return facePieces;
-        // }
-
-        vector<Piece> getFace(vector<int> facePos) {
-            vector<Piece> facePieces;
+        vector<Piece*> getFace(vector<int> facePos) {
+            vector<Piece*> facePieces;
 
             // Loop over the pieces and check if their dot product with the face position is > 0
             for (int i = 0; i < 26; i++) {
-                int dp = pieces[i].getPos()[0] * facePos[0] + pieces[i].getPos()[1] * facePos[1] + pieces[i].getPos()[2] * facePos[2];
+                int dp = pieces[i]->getPos()[0] * facePos[0] + pieces[i]->getPos()[1] * facePos[1] + pieces[i]->getPos()[2] * facePos[2];
                 if (dp > 0) {
                     facePieces.push_back(pieces[i]);
                 }
@@ -154,13 +138,12 @@ class Cube {
             rotatePieces(getFace(facePos), rotation);
         }
 
-
         // done with unique pointers
-        void rotatePieces(vector<Piece> facePieces, Matrix<3, 3> rotation) {
+        void rotatePieces(vector<Piece*> facePieces, Matrix<3, 3> rotation) {
 
             for (int i = 0; i < 9; ++i) {
 
-                facePieces[i].rotate(rotation);
+                facePieces[i]->rotate(rotation);
             }
         }
 
@@ -177,38 +160,16 @@ class Cube {
         void B() {rotateFace({-1, 0, 0}, ROT_CCW_YZ);}
         void Bi() {rotateFace({-1, 0, 0}, ROT_CW_YZ);}
 
-        // void print() {
-        //     int coordinates[6] {2, 1, 0, 1, 0, 2};
-
-        //     for (int i = 0; i < 6; i++) {
-        //         Colour *faceColours = new Colour[9];
-        //         Piece *face = getFace(facePositions[i]);
-        //         for (int j = 0; j < 9; j++) {
-        //             faceColours[j] = face[j].getColour()[coordinates[i]];
-        //         }
-        //         for (int j = 0; j < 9; j++) {
-        //             cout << colorMap[faceColours[j]];
-        //             if (j % 3 == 2) {
-        //                 cout << endl;
-        //             }
-        //         }
-        //         if (i == 0 || i == 4) {
-        //             cout << endl;
-        //         }
-        //     }
-        //     cout << endl;
-        // }
-
         void print() {
             int coordinates[6] {2, 1, 0, 1, 0, 2};
 
             for (int i = 0; i < 6; i++) {
                 vector <Colour> faceColours;
-                vector<Piece> face = getFace(facePositions[i]);
+                vector<Piece*> face = getFace(facePositions[i]);
 
                 for (int j = 0; j < 9; j++) {
 
-                    faceColours.push_back(face[j].getColour()[coordinates[i]]);
+                    faceColours.push_back(face[j]->getColour()[coordinates[i]]);
                 }
 
                 for (int j = 0; j < 9; j++) {
