@@ -10,6 +10,7 @@ class Solver {
     public:
         Solver(Cube c): cube{c} {}
         void solve() {
-            cout << "hehe idk" << endl;
+            // Ok so basically we need to make pruning tables, transition tables, and then we use IDA* to solve the cube
+            // This does not seem easy
         }
 };
