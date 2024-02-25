@@ -150,16 +150,22 @@ class Cube {
 
         void R() {rotateFace({0, 1, 0}, &ROT_CW_XZ);}
         void Ri() {rotateFace({0, 1, 0}, &ROT_CCW_XZ);}
+        void R2() {rotateFace({0, 1, 0}, &ROT_2_XZ);}
         void L() {rotateFace({0, -1, 0}, &ROT_CCW_XZ);}
         void Li() {rotateFace({0, -1, 0}, &ROT_CW_XZ);}
+        void L2() {rotateFace({0, -1, 0}, &ROT_2_XZ);}
         void U() {rotateFace({0, 0, 1}, &ROT_CW_XY);}
         void Ui() {rotateFace({0, 0, 1}, &ROT_CCW_XY);}
+        void U2() {rotateFace({0, 0, 1}, &ROT_2_XY);}
         void D() {rotateFace({0, 0, -1}, &ROT_CCW_XY);}
         void Di() {rotateFace({0, 0, -1}, &ROT_CW_XY);}
+        void D2() {rotateFace({0, 0, -1}, &ROT_2_XY);}
         void F() {rotateFace({1, 0, 0}, &ROT_CW_YZ);}
         void Fi() {rotateFace({1, 0, 0}, &ROT_CCW_YZ);}
+        void F2() {rotateFace({1, 0, 0}, &ROT_2_YZ);}
         void B() {rotateFace({-1, 0, 0}, &ROT_CCW_YZ);}
         void Bi() {rotateFace({-1, 0, 0}, &ROT_CW_YZ);}
+        void B2() {rotateFace({-1, 0, 0}, &ROT_2_YZ);}
 
         vector<Piece*> sortFace(vector<Piece*> face, vector<int> facePos) {
             vector<vector<int>> order;
